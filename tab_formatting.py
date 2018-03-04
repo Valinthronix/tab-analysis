@@ -87,7 +87,10 @@ def generate_rounds(tab_df):
             if nonties == 0:
                 pass
             elif nonties == 1:
-                bal1 = int(useful[:-1])
+                if useful[:-1] == "0":
+                    bal1 = int(useful[:-1])
+                else:
+                    bal2 = int(useful[1:])
             else:
                 second = max(useful.rfind("+"), useful.rfind("-"))
                 bal1 = int(useful[:second])
@@ -107,7 +110,6 @@ def generate_rounds(tab_df):
         index = pd.MultiIndex.from_tuples(index_tuples)
         formatted_round_data = pd.concat([data1,data2,data3], axis=1, keys=index_tuples)
         formatted_round_data.columns = index
-        print(formatted_round_data)
         rounds.append(formatted_round_data)
     all_rounds = rounds[0].join(rounds[1]).join(rounds[2]).join(rounds[3])
     return all_rounds
