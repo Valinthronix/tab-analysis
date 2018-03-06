@@ -1,13 +1,15 @@
 from os import listdir
 import tabula
 import pandas as pd
-import numpy as np
 import tab_formatting
 
 
 def parse_amta(path):
     df = tabula.read_pdf(path, java_options=["-Dfile.encoding=UTF8"], pages=[1,2], lattice=True, pandas_options={'error_bad_lines' : False})
-    df = df.drop(df.index[14]).reset_index(drop=True)
+    try:
+        df = df.drop(df.index[14]).reset_index(drop=True)
+    except IndexError:
+        print("Skipped "+ path)
     return tab_formatting.formatted_tab_df(df)
 
 
