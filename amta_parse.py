@@ -14,10 +14,6 @@ def parse_amta(path):
     fix_page(p1)
     fix_page(p2)
     df = pd.concat([p1,p2], ignore_index=True)
-    try:
-        df = df.drop(df.index[14]).reset_index(drop=True)
-    except IndexError:
-        print("Skipped "+ path)
     return tab_formatting.formatted_tab_df(df)
 
 
