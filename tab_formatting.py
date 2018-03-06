@@ -87,7 +87,7 @@ def generate_rounds(tab_df):
             if nonties == 0:
                 pass
             elif nonties == 1:
-                if useful[:-1] == "0":
+                if useful[-1] == "0":
                     bal1 = int(useful[:-1])
                 else:
                     bal2 = int(useful[1:])
@@ -117,3 +117,5 @@ def generate_rounds(tab_df):
 
 def formatted_tab_df(tab_df):
     return generate_teams(tab_df).join(generate_rounds(tab_df)).join(generate_summary(tab_df))
+
+print()
