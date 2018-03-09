@@ -30,5 +30,6 @@ with pd.ExcelWriter("tab-data.xlsx") as writer:
     for tab in tabs:
         lazy_counter += 1
         parse_amta(tab).to_excel(writer, sheet_name=str(lazy_counter))
+        print(str(lazy_counter) + "/" + str(len(tabs)) + " Complete")
 
 
