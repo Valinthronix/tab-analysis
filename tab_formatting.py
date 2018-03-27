@@ -88,7 +88,7 @@ def generate_rounds(tab_df):
                 if nonties == 0:
                     pass
                 elif nonties == 1:
-                    if useful[-1] == "0" and (useful[-2] is "+" or useful[2] is "-"):
+                    if useful[-1] == "0" and (useful[0] != "0"):
                         bal1 = int(useful[:-1])
                     else:
                         bal2 = int(useful[1:])
