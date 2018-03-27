@@ -73,28 +73,35 @@ def generate_rounds(tab_df):
         ballot2 = []
         total_ballots = []
         for trial_string in tab_df["Round " + str(roundnum)]:
-            if trial_string[0] == u'Π':
-                side.append('P')
-            else:
-                side.append('D')
-            opp = int(trial_string[3:7])
-            opponent.append(opp)
-            useful = trial_string[11:]
-            nonties = useful.count("+") + useful.count("-")
-            bal1 = 0
-            bal2 = 0
-            total = 0
-            if nonties == 0:
-                pass
-            elif nonties == 1:
-                if useful[-1] == "0":
-                    bal1 = int(useful[:-1])
+            if trial_string != "v.":
+                if trial_string[0] == u'Π':
+                    side.append('P')
                 else:
-                    bal2 = int(useful[1:])
+                    side.append('D')
+                opp = int(trial_string[3:7])
+                opponent.append(opp)
+                useful = trial_string[11:]
+                nonties = useful.count("+") + useful.count("-")
+                bal1 = 0
+                bal2 = 0
+                total = 0
+                if nonties == 0:
+                    pass
+                elif nonties == 1:
+                    if useful[-1] == "0" and (useful[-2] is "+" or useful[2] is "-"):
+                        bal1 = int(useful[:-1])
+                    else:
+                        bal2 = int(useful[1:])
+                else:
+                    second = max(useful.rfind("+"), useful.rfind("-"))
+                    bal1 = int(useful[:second])
+                    bal2 = int(useful[second:])
             else:
-                second = max(useful.rfind("+"), useful.rfind("-"))
-                bal1 = int(useful[:second])
-                bal2 = int(useful[second:])
+                side.append("")
+                opponent.append(np.NaN)
+                bal1 = np.NaN
+                bal2 = np.NaN
+                total = np.NaN
             ballot1.append(bal1)
             ballot2.append(bal2)
             for ballot in [bal1, bal2]:
@@ -104,7 +111,7 @@ def generate_rounds(tab_df):
                     total += 1
             total_ballots.append(total)
         data1 = pd.DataFrame(np.array([side]).T)
-        data2 = pd.DataFrame(np.array([opponent, ballot1, ballot2], dtype='int64').T)
+        data2 = pd.DataFrame(np.array([opponent, ballot1, ballot2], dtype='float').T)
         data3 = pd.DataFrame(np.array([total_ballots], dtype='float64').T)
         index_tuples = list(zip(["Round " + roundnum]*5,["Side","Opponent","Ballot 1","Ballot 2","Total Ballots"]))
         index = pd.MultiIndex.from_tuples(index_tuples)

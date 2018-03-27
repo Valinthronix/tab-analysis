@@ -29,7 +29,10 @@ with pd.ExcelWriter("tab-data.xlsx") as writer:
     lazy_counter = 0
     for tab in tabs:
         lazy_counter += 1
-        parse_amta(tab).to_excel(writer, sheet_name=str(lazy_counter))
+        orcs = ""
+        if "ORCS" in tab:
+            orcs = " ORCS"
+        parse_amta(tab).to_excel(writer, sheet_name=str(tab[tab.find("-")+1:].split()[0])+orcs)
         print(str(lazy_counter) + "/" + str(len(tabs)) + " Complete")
 
 
