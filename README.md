@@ -1,4 +1,4 @@
-Parses AMTA's tab pdfs into excel files.
+Parses AMTA's tab (American Mock Trial Association score tabulations) pdfs into excel files.
 Depends on tabula-py and pandas
 
 Works for any Amta formatted pdf
